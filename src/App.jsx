@@ -1,12 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
-
-import './App.css'
-import { FaPencilAlt } from "react-icons/fa";
 import { Routes, Route, useNavigate } from "react-router-dom";
-
 import Home from './components/Home';
 import Data from './components/Data';
+import './App.css';
+import EditWordDocument from './components/EditWord';
+import { FaPencilAlt } from 'react-icons/fa';
 function App() {
+
 
   const navigate = useNavigate();
 
@@ -40,6 +40,9 @@ function App() {
 
 
   const sendMessage = () => {
+    console.log(socket, "---------------");
+    console.log(isConnected, "++++++++++++++++++++");
+
     if (socket && isConnected) {
 
       socket.send(`{
@@ -47,7 +50,9 @@ function App() {
         "name":"list_all_certificates"
         }`);
       setMessages(null);
-      navigate
+
+    } else {
+      alert("E-Imzo ulanmagan!!")
     }
   };
 
@@ -62,14 +67,19 @@ function App() {
         </div>
         <div>
 
-          <Home messages={messages} />
+          {/* <Home messages={messages} /> */}
+          <WordEditor />
         </div>
+        {/* <CreateWordDocument /> */}
+        {/* <EditWordDocument /> */}
+        {/* <QRCodeComponent /> */}
       </div>
 
       <Routes>
         <Route>
           <Route path="/data" element={<Home />} />
           <Route path="id/:id" element={<Data />} />
+
         </Route>
       </Routes>
     </>
